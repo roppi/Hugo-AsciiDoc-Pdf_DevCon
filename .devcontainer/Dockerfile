@@ -1,4 +1,4 @@
-#FROM roppi/rc_hugo # If you want to use a pre-built image, uncomment this line and delete the following line.
+#FROM roppi/rc_hugo  # If you want to use a pre-built image, uncomment this line and delete the following line.
 FROM asciidoctor/docker-asciidoctor
 
 # install git and Hugo
