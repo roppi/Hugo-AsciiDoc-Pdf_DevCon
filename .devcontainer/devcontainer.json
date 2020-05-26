@@ -1,0 +1,40 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.117.1/containers/docker-in-docker
+{
+	"name": "Hugo Container",
+	"dockerFile": "Dockerfile",
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+		"source=${localEnv:USERPROFILE}/.ssh/github_id_rsa,target=/root/.ssh/id_rsa,type=bind,consistency=cached"
+	],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [],
+	
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [1313],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "docker --version",
+
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+	"containerEnv": {
+		"HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
+		"HTML_IMG_OUT_DIR": "images",
+		"PDF_IMG_OUT_DIR": "static/images",
+    "PDF_DEFAULT_FONT": "KaiGen Gothic JP",
+    "PDF_ROUGE_STYLE": "$github",
+    "PDF_STYLE": "KaiGenGothicJP-theme.yml"
+	}
+
+	// Uncomment the next two lines to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// "overrideCommand": false,
+	// "remoteUser": "vscode"
+}
