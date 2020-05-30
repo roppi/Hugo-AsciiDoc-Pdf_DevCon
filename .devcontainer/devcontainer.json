@@ -26,12 +26,13 @@
 	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
 
 	"containerEnv": {
-		"HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
-		"HTML_IMG_OUT_DIR": "images",
-		"PDF_IMG_OUT_DIR": "static/images",
-    "PDF_DEFAULT_FONT": "KaiGen Gothic JP",
-    "PDF_ROUGE_STYLE": "$github",
-    "PDF_STYLE": "KaiGenGothicJP-theme.yml"
+		// "HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
+		// "HTML_BASE_DIR": "siteDir\\/",
+		// "HTML_IMG_OUT_DIR": "images",
+		// "PDF_IMG_OUT_DIR": "static/images",
+    // "PDF_DEFAULT_FONT": "KaiGen Gothic JP",
+    // "PDF_ROUGE_STYLE": "molokai",
+    // "PDF_STYLE": "KaiGenGothicJP-theme.yml"
 	}
 
 	// Uncomment the next two lines to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.

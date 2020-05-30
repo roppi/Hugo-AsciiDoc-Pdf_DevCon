@@ -18,7 +18,7 @@ RUN echo $'#!/bin/sh\n\
 /usr/bin/asciidoctor ${HTML_ROUGE_ARGS} \
 -r asciidoctor-diagram -a outdir=\"static/${HTML_IMG_OUT_DIR}\" \
 -r asciidoctor-mathematical -a mathematical-format=svg ${@} \
-| sed -E -e "s/img src=\\"((diag|stem)-[^/]+)\\"/img src=\\"\/${HTML_IMG_OUT_DIR}\/\\1\\"/"\n\
+| sed -E -e "s/img src=\\"((diag|stem)-[^/]+)\\"/img src=\\"\/${HTML_BASE_DIR}${HTML_IMG_OUT_DIR}\/\\1\\"/"\n\
 ' > /usr/local/bin/asciidoctor \
   && chmod +x /usr/local/bin/asciidoctor
 
@@ -38,18 +38,11 @@ RUN echo $'Prawn::Svg::Font::GENERIC_CSS_FONT_MAPPING.merge!(\n\
 ' > /usr/local/bin/asciidoctor-pdf \
   && chmod +x /usr/local/bin/asciidoctor-pdf
 
-# set default values
-ARG html_rouge_args="-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai"
-ARG html_img_out_dir="images"
-ARG pdf_img_out_dir="static/images"
-ARG pdf_default_font="KaiGen Gothic JP"
-ARG pdf_rouge_style="molokai"
-ARG pdf_style="KaiGenGothicJP-theme.yml"
-
 # set environment variables
-ENV HTML_ROUGE_ARGS=${html_rouge_args} \
-    HTML_IMG_OUT_DIR=${html_img_out_dir} \
-    PDF_IMG_OUT_DIR=${pdf_img_out_dir} \
-    PDF_DEFAULT_FONT=${pdf_default_font} \
-    PDF_ROUGE_STYLE=${pdf_rouge_style} \
-    PDF_STYLE=${pdf_style}
+ENV HTML_ROUGE_ARGS="-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai" \
+    HTML_BASE_DIR="" \
+    HTML_IMG_OUT_DIR="images" \
+    PDF_IMG_OUT_DIR="static/images" \
+    PDF_DEFAULT_FONT="KaiGen Gothic JP" \
+    PDF_ROUGE_STYLE="molokai" \
+    PDF_STYLE="KaiGenGothicJP-theme.yml"

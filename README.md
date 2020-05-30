@@ -67,6 +67,12 @@ Hugo では、テーマ自体にシンタックスハイライトが組み込ま
 ```bash
 -a source-highlighter=rouge -a rouge-css=style -a rouge-style=github
 ```
+### HTML_BASE_DIR
+Webサイトのベースディレクトリ
+
+> https://someuser.github.io/someRepos/
+上記URLの場合、 `someRepos\\/` を設定してください 
+
 
 ### HTML_IMG_OUT_DIR
 HTML 作成時の画像生成先パス（static配下を指定）
