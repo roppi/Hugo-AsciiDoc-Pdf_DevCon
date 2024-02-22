@@ -1,3 +1,4 @@
+:stem: latexmath
 = タイトル
 
 == 画像
@@ -20,7 +21,7 @@ image::sample/sampleimg.png[代替テキスト]
 
 .Mathematical
 [caption="図{counter:index}: "]
-[latexmath]
+[stem]
 ++++
 k_{n+1} = n^2 + k_n^2 - k_{n-1}
 ++++
