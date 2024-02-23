@@ -27,11 +27,11 @@ jobs:
         # Username used to log in to a Docker registry. If not set then no login will occur
         username: ${{ secrets.DOCKER_USERNAME }} # optional
         # Password or personal access token used to log in to a Docker registry. If not set then no login will occur
-        password: ${{ secrets.DOCKER_PASSWORD }} # optional
+        password: ${{ secrets.DOCKER_TOKEN }} # optional
         # Server address of Docker registry. If not set then will default to Docker Hub
         #registry: docker.io # optional
         # Docker repository to tag the image with
-        repository: roppi/rc_hugo
+        repository: roppi/hugo-asciidoc-pdf
         # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
         #tags: latest# optional
         # Automatically tags the built image with the git reference as per the readme
