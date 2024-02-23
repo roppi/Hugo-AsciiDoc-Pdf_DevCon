@@ -9,21 +9,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: roppi/rc_hugo
+    container: roppi/hugo-asciidoc-pdf
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      HTML_BASE_DIR: "repoName\\/"
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      HUGO_AD_HTML_BASE_DIR: ${{ vars.REPOSITORY_NAME }}
     steps:
-    - name: checkout source
-      uses: actions/checkout@v2
+    - name: Check Site Setting
+      run: |
+        if [ -z "${{ vars.SITE_DIR }}" ]; then
+          echo "WARN: Skipping publish Github pages."
+          exit 1
+        fi
 
-    - name: run Hugo
-      run:  hugo; hugo; 
+    - name: Checkout
+      uses: actions/checkout@v4
 
-    - name: deploy ghPages
-      uses: crazy-max/ghaction-github-pages@v2.0.1
+    - name: Hugo build
+      run:  cd ${{ vars.SITE_DIR }}; hugo; hugo --minify;
+
+    - name: GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v4.0.0
       with:
-        # GitHub repository where assets will be deployed (default current)
+        # Git domain (default github.com)
+        #domain: # optional, default is github.com
+        # GitHub repository where assets will be deployed (default $GITHUB_REPOSITORY)
         #repo: # optional
         # Git branch where assets will be deployed
         #target_branch: # optional, default is gh-pages
@@ -32,7 +41,11 @@ jobs:
         # Allow an empty commit to be created
         #allow_empty_commit: # optional, default is true
         # Build directory to deploy
-        build_dir: ./public
+        build_dir: ./${{ vars.SITE_DIR }}/public
+        # Whether to treat build_dir as an absolute path
+        #absolute_build_dir: # optional, default is false
+        # If enabled, the content of symbolic links will be copied
+        #follow_symlinks: # optional, default is false
         # The committer name and email address
         #committer: # optional
         # The author name and email address
@@ -41,3 +54,9 @@ jobs:
         #commit_message: # optional
         # Write the given domain name to the CNAME file
         #fqdn: # optional
+        # Allow Jekyll to build your site
+        #jekyll: # optional, default is true
+        # If enabled, nothing will be pushed
+        #dry_run: # optional, default is false
+        # Enable verbose output
+        #verbose: true # optional, default is false
