@@ -1,1 +1,3 @@
-.asciidoctor
+.hugo_build.lock
+.asciidoctor/
+public/

@@ -11,7 +11,7 @@ draft: false
 
 .ファイル
 [caption="図{counter:index}: "]
-image::/images/sample/sampleimg.png[代替テキスト]
+image::/../static/images/sample/sampleimg.png[代替テキスト]
 
 .PlantUML
 [caption="図{counter:index}: "]

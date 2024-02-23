@@ -11,7 +11,7 @@ RUN echo $'#!/bin/sh\n\
 /usr/bin/asciidoctor ${HUGO_AD_HTML_ROUGE_ARGS} \
 -r asciidoctor-diagram -a imagesdir=\"static/${HUGO_AD_HTML_IMG_OUT_DIR}\" \
 -r asciidoctor-mathematical -a mathematical-format=svg ${@} \
-| sed -E -e "s@img src=\\"/?static/@img src=\\"/${HUGO_AD_HTML_BASE_DIR}@g"\n\
+| sed -E -e "s@img src=\\"/?static/@img src=\\"${HUGO_AD_HTML_BASE_DIR}@g"\n\
 ' > /usr/local/bin/asciidoctor \
   && chmod +x /usr/local/bin/asciidoctor
 
