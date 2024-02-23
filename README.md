@@ -11,10 +11,12 @@ VS Code + Remote Containers でコンテナとして開いた後で、以下の�
 ```bash
 cd example
 asciidoctor-pdf example.adoc
-hugo server -D
+hugo-live -D -F
 ```
-- http://localhost:1313/ で Hugo の結果が確認できます。
 - PDFファイルが、`example/example.pdf` に作成されます。
+- VS Code内のブラウザでライブプレビューができます。
+  - `example/index.adoc` を編集してみてください。
+  - ブラウザで http://localhost:1313/ を開いても確認できます。
 
 
 ## HTMLの生成（Hugo）について

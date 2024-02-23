@@ -32,6 +32,11 @@ RUN echo $'Prawn::Svg::Font::GENERIC_CSS_FONT_MAPPING.merge!(\n\
 ' > /usr/local/bin/asciidoctor-pdf \
   && chmod +x /usr/local/bin/asciidoctor-pdf
 
+# create hugo live preview wrapper command for User.
+RUN echo $'#!/bin/sh\n\
+/usr/bin/hugo server --watch --poll 700ms --disableFastRender\n' > /usr/local/bin/hugo-live \
+  && chmod +x /usr/local/bin/hugo-live
+
 # set environment variables
 ENV HUGO_AD_HTML_ROUGE_ARGS="-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai" \
     HUGO_AD_HTML_BASE_DIR="" \
