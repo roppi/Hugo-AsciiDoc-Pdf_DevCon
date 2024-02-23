@@ -1,7 +1,7 @@
 ---
-title: AsciiDoc Sapmle Post
+title: AsciiDoc Example Post
 date: 
-draft: true
+draft: false
 ---
 :stem: latexmath
 = タイトル
