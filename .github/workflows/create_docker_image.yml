@@ -5,8 +5,10 @@ name: CreateDockerImage
 # events but only for the master branch
 on:
   push:
+    branches: [ master ]
     paths: .devcontainer/Dockerfile
   pull_request:
+    branches: [ master ]
     paths: .devcontainer/Dockerfile
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -18,6 +20,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Check Docker image deeploy setting
+      run: |
+        if [ -z "${{ vars.DOCKER_REPO }}" ]; then
+          echo "WARN: Skipping Docker image deploy."
+          exit 1
+        fi
+      
     - name: Checkout
       uses: actions/checkout@v2.1.1
 
@@ -31,7 +40,7 @@ jobs:
         # Server address of Docker registry. If not set then will default to Docker Hub
         #registry: docker.io # optional
         # Docker repository to tag the image with
-        repository: roppi/hugo-asciidoc-pdf
+        repository: ${{ vars.DOCKER_REPO }}
         # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
         #tags: latest# optional
         # Automatically tags the built image with the git reference as per the readme
