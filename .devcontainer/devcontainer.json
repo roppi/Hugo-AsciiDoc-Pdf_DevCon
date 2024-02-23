@@ -1,39 +1,38 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
-	"name": "Hugo Container",
+  "name": "Hugo Container",
 
-	// Dockerfileをカスタマイズして使用する際は切替え
-	"image": "roppi/hugo-asciidoc-pdf",
-	// "build": {
-	// 	"dockerFile": "Dockerfile",
-	// }
-	
-	// 環境変数の設定
-	"containerEnv": {
-		"HUGO_AD_HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
-		"HUGO_AD_HTML_BASE_DIR": "",
-		"HUGO_AD_HTML_IMG_OUT_DIR": "images/generated",
-		"HUGO_AD_PDF_IMG_DIR": "static/images",
-		"HUGO_AD_PDF_IMG_OUT_DIR": "static/images/generated",
+  // Dockerfileをカスタマイズして使用する際は切替え
+  "image": "roppi/hugo-asciidoc-pdf",
+  // "build": {
+  // 	"dockerFile": "Dockerfile",
+  // }
+
+  // 環境変数の設定
+  "containerEnv": {
+    "HUGO_AD_HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
+    "HUGO_AD_HTML_BASE_DIR": "",
+    "HUGO_AD_HTML_IMG_OUT_DIR": "images/generated",
+    "HUGO_AD_PDF_IMG_DIR": "static/images",
+    "HUGO_AD_PDF_IMG_OUT_DIR": "static/images/generated",
     "HUGO_AD_PDF_THEME": "default-with-fallback-font",
     "HUGO_AD_PDF_ROUGE_STYLE": "molokai",
     "HUGO_AD_PDF_DEFAULT_FONT": "M+ 1p Fallback"
-	},
-  
+  },
+
   "portsAttributes": {
     "1313": {
       "label": "Hugo Live Preview",
       "onAutoForward": "openPreview"
     }
   },
-  
+
   "customizations": {
     "vscode": {
       "extensions": [
-				"asciidoctor.asciidoctor-vscode"
-			],
-      "settings": {
-      }
+        "asciidoctor.asciidoctor-vscode"
+      ],
+      "settings": {}
     }
   }
 }
