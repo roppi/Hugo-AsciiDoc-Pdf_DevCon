@@ -1,0 +1,45 @@
+---
+title: AsciiDoc Sapmle Post
+date: 
+draft: true
+---
+:stem: latexmath
+= タイトル
+
+== 画像
+:index: 0
+
+.ファイル
+[caption="図{counter:index}: "]
+image::/images/sample/sampleimg.png[代替テキスト]
+
+.PlantUML
+[caption="図{counter:index}: "]
+[plantuml, format=svg]
+----
+花子 -> 太郎: Authentication Request
+太郎 --> 花子: Authentication Response
+
+花子 -> 太郎: Another authentication Request
+花子 <-- 太郎: another authentication Response
+----
+
+.Mathematical
+[caption="図{counter:index}: "]
+[stem]
+++++
+k_{n+1} = n^2 + k_n^2 - k_{n-1}
+++++
+
+== ソースコード
+Here's how you say "`Hello, World!`" in Prawn:
+
+.Create a basic PDF document using Prawn
+[source,ruby]
+----
+require 'prawn'
+
+Prawn::Document.generate 'example.pdf' do
+  text 'Hello, World!'
+end
+----
