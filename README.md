@@ -1,57 +1,73 @@
-# rc_hugo
+# Hugo-AsciiDoc-Pdf_DevCon
 Hugo と Asciidoc で静的サイトの構築を行うためのスケルトンプロジェクトです。  
-日本語を含んだ PlantUML, latexmath などの画像生成とPDF化も可能です。
+日本語を扱う設定といろいろと制約のある Hugo との連携をそれっぽく実現しています。
 
-また、Remote-Containers 導入済みの VS Code で開くだけで環境構築ができます。
+AsciiDocから、PlantUMLやLatexの画像を含むサイトの生成、Github Pagesでの公開までを Github Actions で行います。
 
-## 使い方
+また、ローカルでの環境を VS Code + Remotecontainers で簡単に作れたり、PDFの生成も簡単に作成できます。
 
-### とりあえずの試し方
+### 🏃‍♂️💨とりあえず動かしてみたい方向け
+VS Code + Remote Containers でコンテナとして開いた後で、以下のコマンドを実行してください。
 ```bash
-cd sample
-cp "$(dirname $(dirname $(gem which asciidoctor-pdf-cjk-kai_gen_gothic)))/data/themes/KaiGenGothicJP-theme.yml" .
-asciidoctor-pdf sample.adoc
-hugo server -D -t nothing
+cd example
+asciidoctor-pdf example.adoc
+hugo server -D
 ```
+- http://localhost:1313/ で Hugo の結果が確認できます。
+- PDFファイルが、`example/example.pdf` に作成されます。
 
-`sample` 配下に、 `sample.pdf` が作成されます。
-また、http://localhost:1313/ で Hugo の結果が確認できます。
 
-### Hugo の使い方
-
-#### サイトのスケルトン作成
-```bash
-hugo new site . --force
-```
-
-#### 作成したサイトを確認
-```bash
-hugo server -Dw
-```
-
-#### HTMLを生成
-```bash
+## HTMLの生成（Hugo）について
+### 🔧使い方
+VS Code + Remote Containers でコンテナとして開いた後で、以下のコマンドを実行してください。
+``` bash
+cd (生成したいサイトのディレクトリ)
 hugo
 ```
+HTMLのスタイル付けとして、静的サイトジェネレータの [Hugo](https://gohugo.io/) を使用しています。  
+hugo コマンドの使い方やサイトの構成などは、Hugo の情報を参照してください。
 
-http://localhost:1313/ にて確認できます。
+### ⚠️注意
+#### 初期設定（hugo.toml）について
+Hugoのバージョンアップでセキュリティが強化され、標準ではAsciiDocの変換ができなくなりました。
 
-### Asciidoctor-PDF の使い方
+設定ファイル（hugo.toml）に以下のような設定を追加してください。
 
-#### PDF の生成
-```bash
-asciidoctor-pdf target.adoc
+- `[security.exec]` の `allow` に `"^asciidoctor$"` を追加
+- `[security.exec]` の `osEnv` に `'^HUGO_'` を追加
+
+https://gohugo.io/about/security-model/#security-policy
+``` toml
+[security]
+  enableInlineShortcodes = false
+  [security.exec]
+    allow = ['^(dart-)?sass(-embedded)?$', '^go$', '^npx$', '^postcss$', "^asciidoctor$"]
+    osEnv = ['(?i)^((HTTPS?|NO)_PROXY|PATH(EXT)?|APPDATA|TE?MP|TERM|GO\w+|(XDG_CONFIG_)?HOME|USERPROFILE|SSH_AUTH_SOCK|DISPLAY|LANG|SYSTEMDRIVE)$', '^HUGO_']
+  [security.funcs]
+    getenv = ['^HUGO_', '^CI$']
+  [security.http]
+    methods = ['(?i)GET|POST']
+    urls = ['.*']
 ```
 
-## カスタマイズ
-`.devcontainer/.devcontainer.json` の `build: args:` で見た目が変えられます。
+#### PlantUMLなどの画像が表示がされない場合
+PlantUMLや数式などの画像を正しく出力するためには、`hugo` コマンドを2回実行してください。
 
-### HTML_ROUGE_ARGS
-シンタックスハイライトの引数。  
-（ただの asciidoctor への引数なので、その他の使い方もできます。）
+Hugoでは公開フォルダ（Public）に、①画像などのファイルのコピーと、②AsciiDocからHTMLへの変換を行います。  
+PlantUMLなどの画像化は②で行いますが、この時作られた画像は公開フォルダにコピーされないため表示できません。
+
+２回実行することでこれらの画像も公開フォルダにコピーされ、表示が可能となります。
+
+### ⚙️カスタマイズ
+環境変数で以下を変更することができます。
+
+#### HUGO_AD_HTML_ROUGE_ARGS
+シンタックスハイライトの引数。
+
+`rouge-style`にて、テーマを選択できます。
 
 Hugo では、テーマ自体にシンタックスハイライトが組み込まれていることが多いため、
-テーマの作りによって変更してください。
+不要な場合は値を空にしてください。
 
 デフォルト値
 ```bash
@@ -63,49 +79,65 @@ Hugo では、テーマ自体にシンタックスハイライトが組み込ま
 -a source-highlighter=rouge
 ```
 
-色もつけたい場合（ rouge のスタイルを github に変更）
-```bash
--a source-highlighter=rouge -a rouge-css=style -a rouge-style=github
-```
-### HTML_BASE_DIR
-Webサイトのベースディレクトリ
+#### HUGO_AD_HTML_BASE_DIR
+Webサイトのベースディレクトリ。
+
+ドメイン直下でない場合はそのディレクトリを指定してください。
 
 > https://someuser.github.io/someRepos/
-上記URLの場合、 `someRepos\\/` を設定してください 
 
-
-### HTML_IMG_OUT_DIR
-HTML 作成時の画像生成先パス（static配下を指定）
+上記URLの場合、 `someRepos/` 部分を設定してください。
 
 デフォルト値
 ```bash
-images
+(なし)
 ```
 
-### PDF_IMG_OUT_DIR
-PDF 作成時の画像生成先パス
+
+#### HUGO_AD_HTML_IMG_OUT_DIR
+HTML 作成時の画像生成ディレクトリ（static配下を指定）
+
+デフォルト値
+```bash
+images/generated
+```
+
+
+## PDFの生成（AsciiDoctor-PDF）について
+### 🔧使い方
+VS Code + Remote Containers でコンテナとして開いた後で、以下のコマンドを実行してください。
+``` bash
+asciidoctor-pdf (PDF化対象のAsciiDocファイル)
+```
+
+### ⚙️カスタマイズ
+環境変数で以下を変更することができます。
+
+#### HUGO_AD_PDF_IMG_DIR
+PDF 作成時の画像パス
 
 デフォルト値
 ```bash
 static/images
 ```
 
-### PDF_DEFAULT_FONT
-PDF 作成時のフォントファミリー
+#### HUGO_AD_PDF_IMG_OUT_DIR
+PDF 作成時の画像生成先パス
 
 デフォルト値
 ```bash
-KaiGen Gothic JP
+static/images/generated
 ```
 
-フォントファミリーをRobotoに変更
+#### HUGO_AD_PDF_THEME
+PDF 作成時のテーマファイル。
+
 ```bash
-Roboto Mono
+default-with-fallback-font
 ```
 
-
-### PDF_ROUGE_STYLE
-PDF 作成時の rouge のスタイル
+#### HUGO_AD_PDF_ROUGE_STYLE
+PDF 作成時の rouge （シンタックスハイライト）のスタイル
 
 デフォルト値
 ```bash
@@ -117,45 +149,15 @@ molokai
 github
 ```
 
-### PDF_STYLE
-PDF 作成時のテーマファイル
+#### HUGO_AD_PDF_DEFAULT_FONT
+PDF 作成時のフォントファミリー
 
-```
-KaiGenGothicJP-theme.yml
-```
-
-
-## 注意点
-
-### Hugoで生成画像が表示されない場合は、Hugoを再実行する
-Asciidoctor で生成した画像は、`static/images` 内に保存されますが、
-公開用ディレクトリへの同期に間に合っていないことがあります。
-
-再実行することで、公開用ディレクトリへの同期を行います。
-
-### PDF 作成時はスタイルファイルを用意する
-`asciidoctor-pdf` を実行するディレクトリに `KaiGenGothicJP-theme.yml` を用意するか、
-以下のコマンドで標準のファイルを取得してください。
-
+デフォルト値
 ```bash
-$ cp "$(dirname $(dirname $(gem which asciidoctor-pdf-cjk-kai_gen_gothic)))/data/themes/KaiGenGothicJP-theme.yml" .
+M+ 1p Fallback
 ```
 
-### asciidoctor-diagram で作成する図のフォーマットを SVG にする
-フォーマットがSVGでない場合日本語が出力できないため、フォーマットに SVG を指定してください.
-
-#### OK
-```adoc
-[plantuml, format=svg]
-----
-花子 -> 太郎: Authentication Request
-----
-```
-
-#### NG
-```adoc
-[plantuml]
-----
-花子 -> 太郎: Authentication Request
-----
+フォントファミリーをRobotoに変更
+```bash
+Roboto Mono
 ```
