@@ -1,41 +1,39 @@
-// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.117.1/containers/docker-in-docker
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
 {
 	"name": "Hugo Container",
-	"dockerFile": "Dockerfile",
-	"mounts": [
-		"source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
-		"source=${localEnv:USERPROFILE}/.ssh/github_id_rsa,target=/root/.ssh/id_rsa,type=bind,consistency=cached"
-	],
 
-	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"terminal.integrated.shell.linux": "/bin/bash"
-	},
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
+	// Dockerfileをカスタマイズして使用する際は切替え
+	"image": "roppi/hugo-asciidoc-pdf",
+	// "build": {
+	// 	"dockerFile": "Dockerfile",
+	// }
 	
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [1313],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "docker --version",
-
-	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	// "runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
-
+	// 環境変数の設定
 	"containerEnv": {
-		// "HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
-		// "HTML_BASE_DIR": "siteDir\\/",
-		// "HTML_IMG_OUT_DIR": "images",
-		// "PDF_IMG_OUT_DIR": "static/images",
-    // "PDF_DEFAULT_FONT": "KaiGen Gothic JP",
-    // "PDF_ROUGE_STYLE": "molokai",
-    // "PDF_STYLE": "KaiGenGothicJP-theme.yml"
-	}
-
-	// Uncomment the next two lines to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "overrideCommand": false,
-	// "remoteUser": "vscode"
+		"HUGO_AD_HTML_ROUGE_ARGS": "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai",
+		"HUGO_AD_HTML_BASE_DIR": "",
+		"HUGO_AD_HTML_IMG_OUT_DIR": "images/generated",
+		"HUGO_AD_PDF_IMG_DIR": "static/images",
+		"HUGO_AD_PDF_IMG_OUT_DIR": "static/images/generated",
+    "HUGO_AD_PDF_THEME": "default-with-fallback-font",
+    "HUGO_AD_PDF_ROUGE_STYLE": "molokai",
+    "HUGO_AD_PDF_DEFAULT_FONT": "M+ 1p Fallback"
+	},
+  
+  "portsAttributes": {
+    "1313": {
+      "label": "Hugo Live Preview",
+      "onAutoForward": "openPreview"
+    }
+  },
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+				"asciidoctor.asciidoctor-vscode"
+			],
+      "settings": {
+      }
+    }
+  }
 }
