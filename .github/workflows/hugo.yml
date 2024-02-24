@@ -1,10 +1,22 @@
-name: Hugo site CIpages
+name: Hugo deploy to GhPages
 
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.*'
+      - '.devcontainer/**'
+      - '.github/**'
   pull_request:
     branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.*'
+      - '.devcontainer/**'
+      - '.github/**'
 
 jobs:
   build:
