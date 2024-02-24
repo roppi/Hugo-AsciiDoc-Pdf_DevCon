@@ -24,7 +24,12 @@ jobs:
     container: roppi/hugo-asciidoc-pdf
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      # ドメインからベースURLまでのフォルダ階層
       HUGO_AD_HTML_BASE_DIR: ${{ vars.REPOSITORY_NAME }}
+      # ソースハイライト設定
+      # HUGO_AD_HTML_ROUGE_ARGS: "-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai"
+      # 画像生成用ディレクトリ
+      # HUGO_AD_HTML_IMG_OUT_DIR: "images/generated"
     steps:
     - name: Check Site Setting
       run: |
