@@ -1,10 +1,10 @@
-#FROM roppi/rc_hugo  # If you want to use a pre-built image, uncomment this line and delete the following line.
 FROM asciidoctor/docker-asciidoctor
 
 # install Hugo
 RUN apk update && \
     apk add --no-cache \
-      hugo
+      hugo \
+      go
 
 # create asciidocter wrapper command for Hugo.
 RUN echo $'#!/bin/sh\n\

@@ -4,9 +4,7 @@
 
   // Dockerfileをカスタマイズして使用する際は切替え
   "image": "roppi/hugo-asciidoc-pdf",
-  // "build": {
-  // 	"dockerFile": "Dockerfile",
-  // }
+  // "dockerFile": "Dockerfile",
 
   // 環境変数の設定
   "containerEnv": {
