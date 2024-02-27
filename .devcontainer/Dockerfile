@@ -4,7 +4,7 @@ FROM asciidoctor/docker-asciidoctor
 RUN apk update && \
     apk add --no-cache \
       hugo \
-      go
+      go 
 
 # create asciidocter wrapper command for Hugo.
 RUN echo $'#!/bin/sh\n\
@@ -34,8 +34,12 @@ RUN echo $'Prawn::Svg::Font::GENERIC_CSS_FONT_MAPPING.merge!(\n\
 
 # create hugo live preview wrapper command for User.
 RUN echo $'#!/bin/sh\n\
-/usr/bin/hugo server --watch --poll 700ms --disableFastRender\n' > /usr/local/bin/hugo-live \
+/usr/bin/hugo server --watch --poll 700ms --disableFastRender $@\n' > /usr/local/bin/hugo-live \
   && chmod +x /usr/local/bin/hugo-live
+
+# set timezone jst
+RUN apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 # set environment variables
 ENV HUGO_AD_HTML_ROUGE_ARGS="-a source-highlighter=rouge -a rouge-css=style -a rouge-style=molokai" \
